@@ -1,0 +1,6 @@
+server:
+  port: 9097
+
+spring:
+  application:
+    name: banking-transactions-api-nodb
