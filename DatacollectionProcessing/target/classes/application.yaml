@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: DatacollectionProcessing
+
+  kafka:
+      bootstrap-servers: localhost:9092
+
+      producer:
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      consumer:
+        group-id: DataCollection
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+  cloud:
+    config:
+      enabled: false
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+management:
+  tracing:
+    export:
+      enabled: true
+      otlp:
+        enabled: true
+    sampling:
+      probability: 1.0
+
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces
+
+logging:
+  level:
+    io.opentelemetry: DEBUG
+    org.springframework.boot.micrometer.tracing: DEBUG
+    org.springframework.boot.actuate.autoconfigure.tracing: DEBUG
+server:
+  port: 9094

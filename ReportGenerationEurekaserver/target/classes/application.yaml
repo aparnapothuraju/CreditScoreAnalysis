@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: ReportGenerationEurekaserver
+
+server:
+  port: 8761
+
+eureka:
+  dashboard:
+    enabled: true
+    path: /
+  client:
+    register-with-eureka: false
+    fetch-registry: false
