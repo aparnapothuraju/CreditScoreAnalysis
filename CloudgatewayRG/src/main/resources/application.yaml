@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: CloudgatewayRG
+  cloud:
+      gateway:
+        server:
+          webmvc:
+            routes:
+              - id: DatacollectionProcessing
+                uri: lb://DatacollectionProcessing
+                predicates:
+                  - Path=/DatacollectionProcessing/**
+              - id: CreditScoring
+                uri: lb://CreditScoring
+                predicates:
+                  - Path=/CreditScoring/**
+              - id: ReportGeneration
+                uri: lb://ReportGeneration
+                predicates:
+                  - Path=/ReportGeneration/**
+              - id: usermanagmentservice
+                uri: lb://usermanagmentservice
+                predicates:
+                  - path= /usermanagmentservice/** # Sample 100% of requests for dev/testing
+eureka:
+    instance:
+      prefer-ip-address: true
+    client:
+      fetch-registry: true
+      register-with-eureka: true
+      service-url:
+        defaultZone: http://localhost:8761/eureka
+
+server:
+    port: 9095
+management:
+  tracing:
+    export:
+      enabled: true
+      otlp:
+        enabled: true
+    sampling:
+      probability: 1.0
+
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces
+
+logging:
+  level:
+    io.opentelemetry: DEBUG
+    org.springframework.boot.micrometer.tracing: DEBUG
+    org.springframework.boot.actuate.autoconfigure.tracing: DEBUG
